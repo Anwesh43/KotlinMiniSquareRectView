@@ -94,4 +94,28 @@ class MiniSquareRectView(ctx:Context):View(ctx) {
             state.startUpdating(startcb)
         }
     }
+    data class Renderer(var view:MiniSquareRectView, var time:Int = 0) {
+        var miniSquareRect:MiniSquareRect?=null
+        val animator = Animator(view)
+        fun render(canvas:Canvas,paint:Paint) {
+            if(time == 0) {
+                val w = canvas.width.toFloat()
+                val h = canvas.height.toFloat()
+                miniSquareRect = MiniSquareRect(w/2,h/2,2*Math.min(w,h)/3)
+            }
+            canvas.drawColor(Color.parseColor("#212121"))
+            miniSquareRect?.draw(canvas,paint)
+            time++
+            animator.animate {
+                miniSquareRect?.update {
+                    animator.stop()
+                }
+            }
+        }
+        fun handleTap() {
+            miniSquareRect?.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
