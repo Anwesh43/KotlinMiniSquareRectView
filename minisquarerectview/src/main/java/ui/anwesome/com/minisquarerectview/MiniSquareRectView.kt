@@ -3,6 +3,7 @@ package ui.anwesome.com.minisquarerectview
 /**
  * Created by anweshmishra on 09/02/18.
  */
+import android.app.Activity
 import android.content.*
 import android.view.*
 import android.graphics.*
@@ -117,6 +118,13 @@ class MiniSquareRectView(ctx:Context):View(ctx) {
             miniSquareRect?.startUpdating {
                 animator.start()
             }
+        }
+    }
+    companion object {
+        fun create(activity:Activity):MiniSquareRectView {
+            val view = MiniSquareRectView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
