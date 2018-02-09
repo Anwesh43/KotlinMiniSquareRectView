@@ -67,4 +67,31 @@ class MiniSquareRectView(ctx:Context):View(ctx) {
             }
         }
     }
+    data class MiniSquareRect(var x:Float, var y:Float, var size:Float) {
+        val state = State()
+        fun draw(canvas:Canvas,paint:Paint) {
+            val size_square = size*state.scales[0]
+            canvas.save()
+            canvas.translate(x,y)
+            canvas.rotate(180*state.scales[1])
+            canvas.save()
+            canvas.translate(-size_square/2,-size_square/2)
+            for(i in 0..8) {
+                val x_rect = (i%3)*(size_square/2)
+                val y_rect = (i/3)*(size_square/2)
+                canvas.save()
+                canvas.translate(x_rect,y_rect)
+                canvas.drawRect(RectF(-size/10,-size/10,size/10,size/10),paint)
+                canvas.restore()
+            }
+            canvas.restore()
+            canvas.restore()
+        }
+        fun update(stopcb:(Float)->Unit) {
+            state.update(stopcb)
+        }
+        fun startUpdating(startcb:()->Unit) {
+            state.startUpdating(startcb)
+        }
+    }
 }
