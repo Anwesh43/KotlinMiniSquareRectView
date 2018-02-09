@@ -47,7 +47,7 @@ class MiniSquareRectView(ctx:Context):View(ctx) {
         }
     }
     data class State(var j:Int = 0,var dir:Float = 0f,var prevScale:Float = 0f, var jDir:Int = 1) {
-        val scales:Array<Float> = arrayOf(0f,0f)
+        val scales:Array<Float> = arrayOf(0f,0f,0f)
         fun update(stopcb:(Float)->Unit) {
             scales[j] += 0.1f*dir
             if(Math.abs(scales[j] - prevScale) > 1) {
@@ -75,7 +75,7 @@ class MiniSquareRectView(ctx:Context):View(ctx) {
             val size_square = size*state.scales[0]
             canvas.save()
             canvas.translate(x,y)
-            canvas.rotate(180*state.scales[1])
+            canvas.rotate(90*state.scales[2])
             canvas.save()
             canvas.translate(-size_square/2,-size_square/2)
             for(i in 0..8) {
@@ -83,7 +83,13 @@ class MiniSquareRectView(ctx:Context):View(ctx) {
                 val y_rect = (i/3)*(size_square/2)
                 canvas.save()
                 canvas.translate(x_rect,y_rect)
-                canvas.drawRect(RectF(-size/10,-size/10,size/10,size/10),paint)
+                paint.color = Color.parseColor("#9E9E9E")
+                canvas.drawRoundRect(RectF(-size/10,-size/10,size/10,size/10),size/12,size/12,paint)
+                paint.color = Color.parseColor("#EF6C00")
+                canvas.save()
+                canvas.scale(state.scales[1],state.scales[1])
+                canvas.drawRoundRect(RectF(-size/10,-size/10,size/10,size/10),size/12,size/12,paint)
+                canvas.restore()
                 canvas.restore()
             }
             canvas.restore()
